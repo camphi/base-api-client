@@ -1,5 +1,5 @@
 {
-  "name": "camphi/lib-baseapiclient",
+  "name": "camphi/base-api-client",
   "type": "library",
   "license": "MIT",
   "authors": [
@@ -9,6 +9,7 @@
     }
   ],
   "minimum-stability": "dev",
+  "version": "1.3.0",
   "require": {
     "ext-json": "*",
     "guzzlehttp/psr7": "^1.6.1|^2.0.0",

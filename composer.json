@@ -4,11 +4,11 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "Philippe Mendes Campeau"
+      "name": "Philippe Mendes Campeau",
+      "homepage": "https://github.com/camphi/"
     }
   ],
   "minimum-stability": "dev",
-  "version": "1.3.0",
   "require": {
     "ext-json": "*",
     "guzzlehttp/psr7": "^1.6.1|^2.0.0",

@@ -2,6 +2,7 @@
 
 namespace Camphi\BaseApiClient;
 
+use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
@@ -9,7 +10,7 @@ abstract class AbstractResponse implements ResponseInterface
 {
     protected ResponseInterface $response;
 
-    protected array $data;
+    protected $data;
 
     function __construct(ResponseInterface $response)
     {
@@ -30,10 +31,10 @@ abstract class AbstractResponse implements ResponseInterface
     function getData()
     {
         if (false === isset($this->data)) {
-            $contents = $response->getBody()->getContents();
+            $contents = $this->response->getBody()->getContents();
 
             if (empty($contents)) {
-                $this->data = [];
+                $this->data = $contents;
             } else {
                 $this->data = $this->decodeContents($contents);
             }
@@ -48,7 +49,7 @@ abstract class AbstractResponse implements ResponseInterface
      *
      * @return string HTTP protocol version.
      */
-    function getProtocolVersion()
+    public function getProtocolVersion(): string
     {
         return $this->response->getProtocolVersion();
     }
@@ -64,9 +65,9 @@ abstract class AbstractResponse implements ResponseInterface
      * new protocol version.
      *
      * @param string $version HTTP protocol version
-     * @return self
+     * @return static
      */
-    function withProtocolVersion($version)
+    public function withProtocolVersion(string $version): MessageInterface
     {
         return $this->response->withProtocolVersion($version);
     }
@@ -92,11 +93,11 @@ abstract class AbstractResponse implements ResponseInterface
      * While header names are not case-sensitive, getHeaders() will preserve the
      * exact case in which headers were originally specified.
      *
-     * @return array Returns an associative array of the message's headers. Each
+     * @return string[][] Returns an associative array of the message's headers. Each
      *     key MUST be a header name, and each value MUST be an array of strings
      *     for that header.
      */
-    function getHeaders()
+    public function getHeaders(): array
     {
         return $this->response->getHeaders();
     }
@@ -109,7 +110,7 @@ abstract class AbstractResponse implements ResponseInterface
      *     name using a case-insensitive string comparison. Returns false if
      *     no matching header name is found in the message.
      */
-    function hasHeader($name)
+    public function hasHeader(string $name): bool
     {
         return $this->response->hasHeader($name);
     }
@@ -128,7 +129,7 @@ abstract class AbstractResponse implements ResponseInterface
      *    header. If the header does not appear in the message, this method MUST
      *    return an empty array.
      */
-    function getHeader($name)
+    public function getHeader(string $name): array
     {
         return $this->response->getHeader($name);
     }
@@ -152,7 +153,7 @@ abstract class AbstractResponse implements ResponseInterface
      *    concatenated together using a comma. If the header does not appear in
      *    the message, this method MUST return an empty string.
      */
-    function getHeaderLine($name)
+    public function getHeaderLine(string $name): string
     {
         return $this->response->getHeaderLine($name);
     }
@@ -163,16 +164,16 @@ abstract class AbstractResponse implements ResponseInterface
      * While header names are case-insensitive, the casing of the header will
      * be preserved by this function, and returned from getHeaders().
      *
-     * This method MUST be implemented in such a way as to retain the
+     * This method MUST be and in such a way as to retain the
      * immutability of the message, and MUST return an instance that has the
      * new and/or updated header and value.
      *
      * @param string $name Case-insensitive header field name.
      * @param string|string[] $value Header value(s).
-     * @return self
+     * @return static
      * @throws \InvalidArgumentException for invalid header names or values.
      */
-    function withHeader($name, $value)
+    public function withHeader(string $name, $value): MessageInterface
     {
         return $this->response->withHeader($name, $value);
     }
@@ -190,10 +191,10 @@ abstract class AbstractResponse implements ResponseInterface
      *
      * @param string $name Case-insensitive header field name to add.
      * @param string|string[] $value Header value(s).
-     * @return self
+     * @return static
      * @throws \InvalidArgumentException for invalid header names or values.
      */
-    function withAddedHeader($name, $value)
+    public function withAddedHeader(string $name, $value): MessageInterface
     {
         return $this->response->withAddedHeader($name, $value);
     }
@@ -208,9 +209,9 @@ abstract class AbstractResponse implements ResponseInterface
      * the named header.
      *
      * @param string $name Case-insensitive header field name to remove.
-     * @return self
+     * @return static
      */
-    function withoutHeader($name)
+    public function withoutHeader(string $name): MessageInterface
     {
         return $this->response->withoutHeader($name);
     }
@@ -220,7 +221,7 @@ abstract class AbstractResponse implements ResponseInterface
      *
      * @return StreamInterface Returns the body as a stream.
      */
-    function getBody()
+    public function getBody(): StreamInterface
     {
         return $this->response->getBody();
     }
@@ -235,10 +236,10 @@ abstract class AbstractResponse implements ResponseInterface
      * new body stream.
      *
      * @param StreamInterface $body Body.
-     * @return self
+     * @return static
      * @throws \InvalidArgumentException When the body is not valid.
      */
-    function withBody(StreamInterface $body)
+    public function withBody(StreamInterface $body): MessageInterface
     {
         return $this->response->withBody($body);
     }
@@ -251,7 +252,7 @@ abstract class AbstractResponse implements ResponseInterface
      *
      * @return int Status code.
      */
-    function getStatusCode()
+    public function getStatusCode(): int
     {
         return $this->response->getStatusCode();
     }
@@ -273,10 +274,10 @@ abstract class AbstractResponse implements ResponseInterface
      * @param string $reasonPhrase The reason phrase to use with the
      *     provided status code; if none is provided, implementations MAY
      *     use the defaults as suggested in the HTTP specification.
-     * @return self
+     * @return static
      * @throws \InvalidArgumentException For invalid status code arguments.
      */
-    function withStatus($code, $reasonPhrase = '')
+    public function withStatus(int $code, string $reasonPhrase = ''): ResponseInterface
     {
         return $this->response->withStatus($code, $reasonPhrase);
     }
@@ -294,7 +295,7 @@ abstract class AbstractResponse implements ResponseInterface
      * @link http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
      * @return string Reason phrase; must return an empty string if none present.
      */
-    function getReasonPhrase()
+    public function getReasonPhrase(): string
     {
         return $this->response->getReasonPhrase();
     }

@@ -5,7 +5,6 @@ use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Client;
-use Mockery;
 
 uses()->beforeEach(function () {
     $this->mockClient = Mockery::mock(Client::class);

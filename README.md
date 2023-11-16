@@ -3,6 +3,12 @@ Abstract the base needs of an api client and help with documentation.
 
 ## Installation
 Update the composer.json repositories with :
+```
+"camphi_baseapiclient": {
+    "type": "vcs",
+    "url": "https://github.com/camphi/base-api-client.git"
+}
+```
 Then you can add the module to the project : `composer require camphi/base-api-client`
 
 ## Usage
@@ -129,6 +135,3 @@ Given a version number MAJOR.MINOR.PATCH, increment the:
 Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
 ```
 Do not add the version number to the composer.json.
-
-## Package
-``v="x.y.z" && git checkout v"$v" && jq -M --arg v "$v" '. +={version: $v}' composer.json > c_v.j && mv -- c_v.j composer.json && zip -rq lib-baseapiclient_v${v}.zip composer.json README.md src/ && git checkout . && git checkout -``

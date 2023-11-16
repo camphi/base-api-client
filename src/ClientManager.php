@@ -2,7 +2,6 @@
 
 namespace Camphi\BaseApiClient;
 
-use Exception;
 use ReflectionClass;
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;

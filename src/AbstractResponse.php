@@ -12,7 +12,7 @@ abstract class AbstractResponse implements ResponseInterface
 
     protected $data;
 
-    function __construct(ResponseInterface $response)
+    public function __construct(ResponseInterface $response)
     {
         $this->response = $response;
     }
@@ -28,7 +28,7 @@ abstract class AbstractResponse implements ResponseInterface
      *
      * @return mixed
      */
-    function getData()
+    public function getData()
     {
         if (false === isset($this->data)) {
             $contents = $this->response->getBody()->getContents();

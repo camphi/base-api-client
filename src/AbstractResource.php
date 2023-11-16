@@ -8,23 +8,12 @@ use Psr\Http\Message\ResponseInterface;
 abstract class AbstractResource
 {
     protected ClientInterface $client;
-    // protected array $updatedDefaultOptions = [];
 
     public function __construct(
         ClientInterface $client
     ) {
         $this->client = $client;
     }
-
-    // public function getClient(): ClientInterface
-    // {
-    //     $this->client;
-    // }
-
-    // public function setClient(ClientInterface $client)
-    // {
-    //     $this->client = $client;
-    // }
 
     protected function request(string $method, string $uri, array $options): ResponseInterface
     {

@@ -2,20 +2,16 @@
 
 namespace Camphi\BaseApiClient;
 
-use Exception;
-use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
-
 abstract class AbstractDiscovery
 {
-    protected ClientInterface $clientManager;
+    protected ClientManager $clientManager;
 
     protected array $resources = [];
 
     /**
      * Instances of $this->resources classes
      *
-     * @var [\Camphi\BaseApiClient\AbstractResource]
+     * @var \Camphi\BaseApiClient\AbstractResource[]
      */
     protected array $instanceOfResources = [];
 

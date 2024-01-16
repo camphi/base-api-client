@@ -23,7 +23,7 @@ class ClientManager implements ClientInterface
         $this->updateClientDefaultConfig($clientDefaultConfig);
     }
 
-    public function updateClientDefaultConfig(array $clientDefaultConfig, bool $merge = false)
+    public function updateClientDefaultConfig(array $clientDefaultConfig, bool $merge = false): void
     {
         if ($merge) {
             $clientDefaultConfig = array_merge($this->clientDefaultConfig, $clientDefaultConfig);
@@ -31,7 +31,7 @@ class ClientManager implements ClientInterface
 
         $this->clientDefaultConfig = $clientDefaultConfig;
         $client = new Client($clientDefaultConfig);
-        
+
         $this->client = $client;
         $this->reflected = new ReflectionClass($client);
     }
@@ -40,7 +40,7 @@ class ClientManager implements ClientInterface
     {
         return $this->clientDefaultConfig;
     }
-    
+
     /**
      * Send an HTTP request.
      *
@@ -115,27 +115,33 @@ class ClientManager implements ClientInterface
      *
      * @deprecated ClientInterface::getConfig will be removed in guzzlehttp/guzzle:8.0.
      */
-    public function getConfig(?string $option = null)
+    public function getConfig(?string $option = null): mixed
     {
         return $this->client->getConfig($option);
     }
-    
+
+    /**
+     * @throws \ReflectionException
+     */
     public function __get(string $name): mixed
     {
-        $property = $this->reflected->getProperty($name);
-        return $property->getValue($this->obj);
+        return $this->reflected->getProperty($name)->getValue($this->obj);
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function __set(string $name, mixed $value): void
     {
-        $property = $this->reflected->getProperty($name);
-        $property->setValue($this->obj, $value);
+        $this->reflected->getProperty($name)->setValue($this->obj, $value);
     }
 
+    /**
+     * @throws \ReflectionException
+     */
     public function __call(string $name, array $params = []): mixed
     {
-        $method = $this->reflected->getMethod($name);
-        return $method->invoke($this->obj, ...$params);
+        return $this->reflected->getMethod($name)->invoke($this->obj, ...$params);
     }
 
 }

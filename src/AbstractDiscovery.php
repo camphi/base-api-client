@@ -19,11 +19,11 @@ abstract class AbstractDiscovery
         array $clientDefaultConfig = []
     ) {
         $clientManager = new ClientManager($clientDefaultConfig);
-        
+
         $this->clientManager = $clientManager;
     }
 
-    public function updateDefaultConfig(array $defaultConfig = [], bool $merge = false)
+    public function updateDefaultConfig(array $defaultConfig = [], bool $merge = false): void
     {
         $this->clientManager->updateClientDefaultConfig($defaultConfig, $merge);
     }
@@ -42,7 +42,7 @@ abstract class AbstractDiscovery
             return $this->instanceOfResources[$name];
         }
     }
-    
+
     public function __isset($name)
     {
         return isset($this->instanceOfResources[$name]);

@@ -8,7 +8,7 @@ use GuzzleHttp\Psr7\Response;
 test('Custom Data Contents', function () {
     $response = new Response(200, [], '{"aaa":[1,2,3],"bbb":{"first":1,"second":2}}', '1.1', 'OK');
     $customResponse = new class ($response) extends AbstractResponse {
-        protected function decodeContents($contents)
+        protected function decodeContents($contents): mixed
         {
             return json_decode($contents);
         }

@@ -36,6 +36,8 @@ test('ClientManager Update Client Config', function () {
     expect($clientManager->getClientDefaultConfig())->toBe(['foo' => 'bar']);
     $clientManager->updateClientDefaultConfig(['foobar' => 'barbar'], true);
     expect($clientManager->getClientDefaultConfig())->toBe(['foo' => 'bar', 'foobar' => 'barbar']);
+    $clientManager->updateClientDefaultConfig(['foobar' => 'rabrab'], true);
+    expect($clientManager->getClientDefaultConfig())->toBe(['foo' => 'bar', 'foobar' => 'rabrab']);
 });
 
 test('ClientManager Passthrough ClientInterface', function () {

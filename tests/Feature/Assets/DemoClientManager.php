@@ -19,7 +19,7 @@ class DemoClientManager extends ClientManager
         $this->updateClientDefaultConfig($clientDefaultConfig);
     }
 
-    public function updateClientDefaultConfig(array $clientDefaultConfig, bool $merge = false)
+    public function updateClientDefaultConfig(array $clientDefaultConfig, bool $merge = false): void
     {
         if ($merge) {
             $clientDefaultConfig = array_merge($this->clientDefaultConfig, $clientDefaultConfig);

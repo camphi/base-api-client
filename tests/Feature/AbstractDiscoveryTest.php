@@ -67,4 +67,6 @@ test('Discovery Update Client Config', function () {
     expect($this->discoveryDemo->getClientDefaultConfig())->toBe(['foo' => 'bar']);
     $this->discoveryDemo->updateDefaultConfig(['foobar' => 'barbar'], true);
     expect($this->discoveryDemo->getClientDefaultConfig())->toBe(['foo' => 'bar', 'foobar' => 'barbar']);
+    $this->discoveryDemo->updateDefaultConfig(['foobar' => 'rabrab'], true);
+    expect($this->discoveryDemo->getClientDefaultConfig())->toBe(['foo' => 'bar', 'foobar' => 'rabrab']);
 });

@@ -299,4 +299,45 @@ abstract class AbstractResponse implements ResponseInterface
     {
         return $this->response->getReasonPhrase();
     }
+
+
+    public function inflate(string $class): object
+    {
+        if (!class_exists($class)) {
+            throw new \InvalidArgumentException('Class does not exist');
+        }
+
+        $reflection = new \ReflectionClass($class);
+
+        if (!$reflection->isInstantiable()) {
+            throw new \InvalidArgumentException('Class is not instantiable');
+        }
+
+        $object = $reflection->newInstanceWithoutConstructor();
+
+        foreach ($this->getData() as $property => $value) {
+            if (!$reflection->hasProperty($property) || !$reflection->getProperty($property)->isPublic()) {
+                continue;
+            }
+
+            $classProperty = $reflection->getProperty($property);
+
+            match ($classProperty->getType()?->getName()) {
+                'int' => $value = (int)$value,
+                'float' => $value = (float)$value,
+                'bool' => $value = (bool)$value,
+                'string' => $value = (string)$value,
+                'array' => $value = (array)$value,
+                default => $value
+            };
+
+            $classProperty->setValue($object, $value);
+        }
+
+        return $object;
+    }
+
+    public function uinflate(callable $callback): object {
+        return $callback($this->getData());
+    }
 }

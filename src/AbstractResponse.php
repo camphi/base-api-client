@@ -300,7 +300,14 @@ abstract class AbstractResponse implements ResponseInterface
         return $this->response->getReasonPhrase();
     }
 
-
+    /**
+     * Creates an instance of a specified class without calling its constructor and
+     * populates its public properties with the response data.
+     *
+     * @param string $class
+     * @return object
+     * @throws \ReflectionException
+     */
     public function inflate(string $class): object
     {
         if (!class_exists($class)) {
@@ -337,6 +344,12 @@ abstract class AbstractResponse implements ResponseInterface
         return $object;
     }
 
+    /**
+     * Executes a callback with the response data as an argument.
+     *
+     * @param callable $callback
+     * @return object
+     */
     public function uinflate(callable $callback): object {
         return $callback($this->getData());
     }

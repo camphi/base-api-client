@@ -54,14 +54,21 @@ class Resource extends AbstractResource
         $options = array_merge($options, [
             'query' => $params
         ]);
-        return new JsonResponse($this->request($method, $uri, $options));
+        return new XmlResponse($this->request($method, $uri, $options));
     }
 
     public function getEndpointById($id, array $options = [])
     {
         $method = 'get';
         $uri = 'resource/endpoint/' . $id;
-        return new XmlResponse($this->request($method, $uri, $options));
+        return new JsonResponse($this->request($method, $uri, $options));
+    }
+
+    public function getModel($id, array $options = [])
+    {
+        return AbstractDataModelFactory::create(
+            $this->getEndpointById($id, array $options)->getData()
+        );
     }
 
     public function postToResource($body, array $options = [])

@@ -2,7 +2,7 @@
 use Camphi\BaseApiClient\AbstractDiscovery;
 use Camphi\BaseApiClient\AbstractResource;
 use Camphi\BaseApiClient\ClientManager;
-use Camphi\BaseApiClient\Tests\Feature\Assets\DemoAbstractDiscovery;
+use Camphi\BaseApiClient\Tests\Unit\Assets\DemoAbstractDiscovery;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Client;
 

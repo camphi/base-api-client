@@ -1,6 +1,6 @@
 <?php
 
-use Camphi\BaseApiClient\Tests\Feature\Assets\DemoAbstractDiscovery;
+use Camphi\BaseApiClient\Tests\Unit\Assets\DemoAbstractDiscovery;
 use Camphi\BaseApiClient\AbstractDiscovery;
 use Camphi\BaseApiClient\AbstractResource;
 use Psr\Http\Message\ResponseInterface;

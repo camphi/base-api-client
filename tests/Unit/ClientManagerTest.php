@@ -1,6 +1,6 @@
 <?php
 use Camphi\BaseApiClient\ClientManager;
-use Camphi\BaseApiClient\Tests\Feature\Assets\DemoClientManager;
+use Camphi\BaseApiClient\Tests\Unit\Assets\DemoClientManager;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use GuzzleHttp\Promise\PromiseInterface;

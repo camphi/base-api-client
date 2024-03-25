@@ -35,6 +35,41 @@ class Discovery extends AbstractDiscovery
 }
 ```
 
+NamedModelFactory.php
+```php
+<?php
+namespace Camphi\Example;
+
+use Camphi\Example\NamedModel;
+
+class NamedModelFactory extends AbstractDataModelFactory
+{
+    public static function create(array $data = []): NamedModel
+    {
+        return new NamedModel($data);
+    }
+
+    public static function validateNamedData(array $data = []): bool
+    {
+        return isset($data['result']['fields']) && 1 > count($data['result']['fields']);
+    }
+    
+    public static function createFromGetNamedModel(array $data = []): ?NamedModel
+    {
+        if (false === static::validateNamedData($data)) {
+            return null;
+        }
+
+        $parsedData = [];
+        foreach ($data['result']['fields'] as $field) {
+            $parsedData[$field['name']] = $field['value'];
+        }
+
+        return static::create($parsedData);
+    }
+}
+```
+
 Resource.php
 ```php
 <?php
@@ -44,6 +79,9 @@ use Camphi\BaseApiClient\AbstractResponse;
 use Camphi\BaseApiClient\JsonResponse;
 use Camphi\BaseApiClient\XmlResponse;
 use Camphi\BaseApiClient\AbstractResource;
+use Camphi\BaseApiClient\AbstractDataModelFactory;
+use Camphi\Example\NamedModel;
+use Camphi\Example\NamedModelFactory;
 
 class Resource extends AbstractResource
 {
@@ -54,14 +92,28 @@ class Resource extends AbstractResource
         $options = array_merge($options, [
             'query' => $params
         ]);
-        return new JsonResponse($this->request($method, $uri, $options));
+        return new XmlResponse($this->request($method, $uri, $options));
     }
 
     public function getEndpointById($id, array $options = [])
     {
         $method = 'get';
         $uri = 'resource/endpoint/' . $id;
-        return new XmlResponse($this->request($method, $uri, $options));
+        return new JsonResponse($this->request($method, $uri, $options));
+    }
+
+    public function getUnnamedModel($id)
+    {
+        return AbstractDataModelFactory::create(
+            $this->getEndpointById($id)->getData()
+        );
+    }
+
+    public function getNamedModel($id): ?NamedModel
+    {
+        return NamedModelFactory::createFromGetNamedModel(
+            $this->getEndpointById($id)->getData()
+        );
     }
 
     public function postToResource($body, array $options = [])

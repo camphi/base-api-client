@@ -1,6 +1,6 @@
 <?php
 
-namespace Camphi\BaseApiClient\Tests\Feature\Assets;
+namespace Camphi\BaseApiClient\Tests\Unit\Assets;
 
 use Camphi\BaseApiClient\AbstractResource;
 
